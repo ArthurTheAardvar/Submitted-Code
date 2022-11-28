@@ -1,0 +1,7 @@
+import os
+os.system('color 55')
+end = input("press any key to change colors")
+os.system('color f1')
+end = input("press any key to change colors")
+os.system('color a4')
+end = input("press any key to quit")
