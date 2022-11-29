@@ -1,0 +1,24 @@
+import time
+
+start = time.time()
+room = 1
+TimeLeft = 2000
+
+while TimeLeft > 0:
+    print()
+    newTime = time.time()
+    timeElapsed = start - newTime
+    print(int(timeElapsed*-1), "seconds have passed.")
+    TimeLeft+= timeElapsed
+    print("you have", int(TimeLeft), "seconds left to complete the game!")
+    
+    if room == 1:
+        choice = input("THE BEDROOM: You wake up in a bed with no clue what your doing there. You get up and see four doors and see a key ")
+
+        if choice == 'w' or choice == 'W' or choice == 'west':
+            room = 2
+            
+        if room == 2:
+            choice = input("The Forest: You walk through the door and see a forest")
+            if choice == 'e' or choice == 'e' or choice == 'east':
+                room = 1
