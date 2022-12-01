@@ -1,0 +1,31 @@
+inventory = ["sword", "", "", "", ""] #inventory
+PlayerHealth = 100
+
+doExit = False
+room = 1 #starting room
+while doExit == False and PlayerHealth> 0: #main game loop
+    print("-------------------------")
+    print("Your health is", PlayerHealth)
+    print("Your inventory:", end = " ") #print the inventory
+    for i in range (len(inventory)):
+        print(inventory[i], end = " ")
+    print()
+    
+    if room == 1:
+        choice = input("You walk into a room and see a rug on the ground and a door on the other side of the room")
+        if inventory[0]!="sword":
+            invetory[0] = "sword"
+            print("You got a sword!")
+        if choice == "rug" or choice == "look under rug":
+            print("You found a key!")
+            inventory[1] = "key"
+        if choice == "east":
+            if inventory[1] == "key":
+                print("You open the locked door with the keys")
+                room = 2
+                inventory[1] = " " #erases the key
+            else:
+                print("The door is locked")
+                break
+    if room == 2:
+        choice = input("You made it to the second room. Good Job!")
