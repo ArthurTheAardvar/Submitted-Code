@@ -1,0 +1,44 @@
+inventory = [" ", " ", " "]
+doExit = False
+money = 50
+room = 1
+def areas(money):
+    room = 1
+    while doExit == False and money > 0: 
+        print("--------------------------------------------------------------------------------")
+        print("Welcome to the shop, you have a total of", money, "dollars")
+        print("Your items:", end = " ")
+        print(inventory)
+        print("Shop items: Potion: $5, Food: $2, Keys: $15")
+        
+            
+        cash = input("Press p to purchase a potion, f for food, k for key, and q to quit")
+        if cash == "p" or cash == "potion":
+            money -= 5
+            print("You purchased a Potion")
+            inventory[0] = "Potion"
+        elif cash == "f" or cash == "food":
+            money -= 2
+            print("You purchased Food")
+            inventory[1] = "Food"
+        elif cash == "k" or cash == "key":
+            money -= 15
+            print("You purchased a key")
+            inventory[2] = "Key"
+        elif cash == "q" or cash == "quit":
+           choice = input("You've made it to room 1 you can go east")
+           if choice == "e" or choice == "east":
+               room = 2
+           
+        else:
+            print("You don't have enough money... Scram")
+            
+        if room == 2:
+            print("you made it congrats")
+            break
+            
+
+
+
+areas(money)    
+ 
