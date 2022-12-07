@@ -1,0 +1,304 @@
+import time
+import os
+import winsound
+from pygame import mixer
+os.system('color 8a')
+import random
+start = time.time()
+winsound.Beep(500, 100)
+mixer.init()
+mixer.music.load('C:/Users/768588/Downloads/Volume Beta 19. The End.mp3')
+mixer.music.play()
+TimeLeft = 2000
+PlayerHealth = 100
+inventory = [" ", " ", " ", " ", " ", " ", " "]
+
+#This is a BossBattle system, whenever you encounter an enemy it shows how much damage you do and take from a monster
+def BossBattle(PlayerHealth):
+    MonsterHealth = 20 #monster health
+    while MonsterHealth >0 and PlayerHealth >0: #mini game loop
+        if inventory[1] == "Sword": #slot 0
+            damage = random.randrange(10, 20) #hit harder if you have a sword
+        else:
+            damage = random.randrange(5, 10)# if you dont have it you'll do less
+            
+        #How much damage the player does    
+        print("You hit the monster for", damage)
+        MonsterHealth -= damage
+        print("The monster now has", MonsterHealth, "health left")
+        
+        
+        # How much the monster does to you
+        damage = random.randrange(5, 10)
+        if MonsterHealth >0:
+            print("The monster attacks you for", damage)
+            PlayerHealth -= damage
+            print("You now have", PlayerHealth, "health left")
+            
+        #player options    
+        choice = input("Press p to use potion or a to attack")
+        if choice == "p" and inventory[1] == "potion":
+            PlayerHealth +=20
+            print("You drink the potion")
+            inventory[1] = "empty"
+        elif choice == "potion" or choice == "p":
+            print("You dont have anymore potions")
+        else:
+            print("You attack the monster")
+        #END LOOP--------------------------------------------------------------       
+    if MonsterHealth <=0:
+        print("You've defeated the monster")
+    elif PlayerHealth <=0:
+        doExit = True
+        
+    return PlayerHealth
+
+
+#This is a random monster generator, its as its name it generates random monsters, just call it in a room and it will choose a random monster
+def monster(biome):
+    num = random.randrange(0, 100)#random number to determine what monster will appear
+    if biome == "dungeon":
+        if num < 20:#20% chance
+            print("A zombie attacks you")
+        elif num <60:#40%chance
+            print("A skeleton shoots an arrow at you!")
+        elif num <90:#30% chance
+            print("A spider crawls towards you")
+        else:# the ast 10% goes here
+            ("A witch throws a potion at you!")
+            
+doExit = False
+room = 1
+mixer.music.load('C:/Users/768588/Downloads/Volume Beta 19. The End.mp3')
+mixer.music.play()
+while doExit == False:
+    print("Your inventory: ", end = " ")
+    print(inventory)
+    while TimeLeft > 0:
+        print()
+        newTime = time.time()
+        timeElapsed = start - newTime
+        print(int(timeElapsed*-1), "seconds have passed.")
+        TimeLeft+= timeElapsed
+        print("you have", int(TimeLeft), "seconds left to until the helicopter leaves you behind!")
+ 
+        if room == 1:
+            print("Your inventory: ", end = " ")
+            print(inventory)
+            print(("""
+
+
+
+                          />
+                         /<
+                O[\\\\\\(O):::<=======================-                    
+                         \<
+                          \>    
+                  .
+                 . .
+                  ...
+                \~~~~/
+                 \       /
+                  \    /
+                    V
+                     |
+                     |
+                    ---
+                  .---.
+                 /    |\________________
+                o ()  | ________   _   _)
+                `\    |/                      | | | |
+                  `---'                    "-" |_|            
+                                                             """))
+            choice = input("The Bedroom: You wake up in a bed with a timer going off in your head. You get up and see four doors, a key, sword and mysterious potion. The door to the south looks peculiar it has chains on it, a door with roots on it to the west, a rusted door to the east, and a door with lava to the north: ")
+            
+            if choice == 'w' or choice == 'W' or choice == 'west':
+                    room = 2
+                    
+            elif choice == 'n' or choice == 'N' or choice == 'north':
+                room = 3
+                
+            elif choice == 's' or choice == 'S' or choice == 'south':
+                File = False
+                for i in range(len(inventory)):
+                    if inventory[3] == "File":# if i have this item in the exact spot its suppose to be in my inventory I get through
+                        File = True
+                if File == True:
+                    print("You broke through the chain and opened the door")
+                    room = 5
+                else:
+                    print("You need something to break the chains")
+                        
+            elif choice == 'e' or choice == 'E' or choice == 'east':
+                room = 4
+                
+            elif choice == "key" or choice == "pick up key":
+                inventory[0] = "Key1"#adds items to invetory
+                mixer.music.load('C:/Users/768588/Downloads/mixkit-space-coin-win-notification-271.wav')#This adds a beep sound every time I pick up an item
+                mixer.music.play()
+            elif choice == "sword" or choice == "pick up sword":
+                inventory[1] = "Sword"
+                mixer.music.load('C:/Users/768588/Downloads/mixkit-space-coin-win-notification-271.wav')
+                mixer.music.play()
+
+            elif choice == "potion" or choice == "pick up potion":
+                inventory[2] = "Potion"
+                mixer.music.load('C:/Users/768588/Downloads/mixkit-space-coin-win-notification-271.wav')
+                mixer.music.play()
+                
+        if room == 2:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            
+            choice = input("The Forest: You walk through the door and see a forest nothing more you can go back east")
+            if choice == 'e' or choice == 'e' or choice == 'east':
+                
+                room = 1
+                                                            
+        if room == 3:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            monster("dungeon")#calls monster randomizer
+            PlayerHealth = BossBattle(PlayerHealth)#calls BossBattle Function
+            choice = input("The Dungeon: After that attack you walk through the door and see a run down dungeon with rats creeping around you can go back south: ")
+            if choice == 's' or choice == 'S' or choice == 'south':
+                room = 1
+        if PlayerHealth > 0:
+            print("You defeated the monster")
+            doExit = True
+        else:
+            print("The monster defeated you")
+            doExit = True
+           
+            
+        if room == 4:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            choice = input("The Wasteland: You walk through the door and find a wasteland along side a run down car and the door you came from to the west: ")
+            if choice == 'w' or choice == 'W' or choice == 'west':
+                room = 1
+            elif choice == 'car' or choice == 'look in car':
+                print("You found a file in between the cushions. Maybe it will be useful elsewhere?")
+                inventory[3] = "File"
+                mixer.music.load('C:/Users/768588/Downloads/mixkit-space-coin-win-notification-271.wav')
+                mixer.music.play()
+
+                 
+        if room == 5:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            choice = input("The Living Room: You walk through the door and see an ordinary living room with a rug and couches and another door to the south: ")
+            if choice == 'n' or choice == 'N' or choice == 'north':
+                room = 1
+            elif choice == 's' or choice == 'S' or choice == 'south':
+                room = 6
+            elif choice == 'rug':
+                print("You found a key under the rug. I wonder where it could lead?")
+                inventory[6] = "Key2"
+                mixer.music.load('C:/Users/768588/Downloads/mixkit-space-coin-win-notification-271.wav')
+                mixer.music.play()
+         
+                        
+        if room == 6:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            monster("dungeon")#This calls the random monster generator
+            PlayerHealth = BossBattle(PlayerHealth)
+            choice = input("The Cave: After that attack you open a door and find yourself in a cave. It is dimly lit by a singular torch and you see a door to the south of the cave and a door to the east : ")
+            if choice == 'n' or choice == 'N' or choice == 'north':
+                room = 5
+            elif choice == 's' or choice == 'S' or choice == 'south':
+                Key2 = False
+                for i in range(len(inventory)):
+                    if inventory[6] == "Key2":
+                        Key2 = True
+                if Key2 == True:
+                    print("You opened the door with the key")
+                    room = 7
+                else:
+                    print("You need a key for this door")
+                        
+            elif choice == 'e' or choice == 'E' or choice == 'east':
+                Key3 = False
+                for i in range(len(inventory)):
+                    if inventory[4] == "Key3":
+                        Key3 = True
+                if Key3 == True:
+                    print("You opened the door with the key")
+                    room = 8
+                else:
+                    print("You need a key for this door")
+        if PlayerHealth > 0:
+            print("You defeated the monster")
+            doExit = True
+        else:
+            print("The monster defeated you")
+            doExit = True
+
+                        
+        if room == 7:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            choice = input("The Closet: You enter the room and find basic janitor equipment along with a lever and the door you came from to the north: ")
+            if choice == 'n' or choice == 'N' or choice == 'north':
+                room = 6
+            elif choice == 'lever' or choice == 'pull lever':
+                print("You pull the level which reveals a secret compartment with a key inside")
+                inventory[4] = "Key3"
+                mixer.music.load('C:/Users/768588/Downloads/mixkit-space-coin-win-notification-271.wav')
+                mixer.music.play()
+                room = 7
+            elif choice == 'janitor' or choice == 'janitor equipment' or choice == 'equipment':
+                print("You find a medallion in a bucket")
+                inventory[5] = "Medallion"
+                mixer.music.load('C:/Users/768588/Downloads/mixkit-space-coin-win-notification-271.wav')
+                mixer.music.play()
+                    
+
+                        
+        if room == 8:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            choice = input("The Stairs: You arrive at a set of stairs to the east and see light coming from the top: ")
+            if choice == 'w' or choice == 'W' or choice == 'west':
+                room = 7
+            elif choice == 'e' or choice == 'E' or choice == 'east' or choice == 'stairs' or choice == 'climb stairs':
+                print("You begin your journey up the stairs")
+                room = 9
+          
+                        
+        if room == 9:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            choice = input("The Rooftop: You arrive at the top of the stairs and through a window you see the helicopter to the south: ")
+            if choice == 'w' or choice == 'W' or choice == 'west':
+                room = 8
+            elif choice == 's' or choice == 'S' or choice == 'south':
+                room = 10
+         
+                
+        if room == 10:
+            print("Your inventory:", end = " ")
+            print(inventory)
+            choice = input("Helicopter: You arrive at the helicopter and the man there asks you show him the medallion: ")
+            if choice == 'n' or choice == 'N' or choice == 'north':
+                room = 9
+            elif choice == 'Medallion' or choice == 's' or choice == 'south' or choice == 'show medallion':
+                Medallion = False
+                for i in range(len(inventory)):
+                    if inventory[5] == "Medallion":#if you dont have the medallion it will send you back to aquire it
+                        Medallion = True
+                if Medallion == True:
+                    print("You show him the medallion and he lets you on the helicopter")
+                    room = 11
+                else:
+                    print("He turns a weapon on you and lets you know you need a medallion to board")
+                    room = 10
+            if room == 11:
+                choice = input("You escaped the strange building. Congrats")
+                break
+                
+                    
+
+
+             
